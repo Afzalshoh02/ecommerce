@@ -18,7 +18,9 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->tinyInteger('is_admin')->default(0)->comment('1 - Admin, 1 - Customer');
+            $table->tinyInteger('is_admin')->default(0)->comment('1 - Admin, 0 - Customer');
+            $table->tinyInteger('status')->default(0)->comment('1 - InActive, 0 - Active');
+            $table->tinyInteger('is_delete')->default(0)->comment('1 - Deleted, 0 - NotDelete');
             $table->timestamps();
         });
     }

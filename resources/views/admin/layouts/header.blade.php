@@ -109,8 +109,14 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <!-- Sidebar user panel (optional) -->
-
-
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="/assets/dist/img/user2-160x160.jpg" class="img-circle elevation-2">
+            </div>
+            <div class="info">
+                <a class="d-block">{{ \Illuminate\Support\Facades\Auth::user()->name }}</a>
+            </div>
+        </div>
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -134,8 +140,17 @@
                 </li>
 
                 <li class="nav-item">
+                    <a href="{{ url('admin/category/list') }}" class="nav-link @if(\Illuminate\Support\Facades\Request::segment(2) == 'category') active @endif">
+                        <i class="nav-icon fas fa-list-alt"></i>
+                        <p>
+                            Category
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a href="{{ url('admin/product/list') }}" class="nav-link @if(\Illuminate\Support\Facades\Request::segment(2) == 'product') active @endif">
-                        <i class="nav-icon fas fa-user"></i>
+                        <i class="nav-icon fas fa-list-alt"></i>
                         <p>
                             Product
                         </p>
@@ -144,7 +159,7 @@
 
                 <li class="nav-item">
                     <a href="{{ url('admin/logout') }}" class="nav-link">
-                        <i class="nav-icon fas fa-user"></i>
+                        <i class="nav-icon fas fa-sign-out-alt"></i>
                         <p>
                             Logout
                         </p>
