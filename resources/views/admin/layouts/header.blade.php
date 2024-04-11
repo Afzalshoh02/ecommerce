@@ -149,6 +149,33 @@
                 </li>
 
                 <li class="nav-item">
+                    <a href="{{ url('admin/sub_category/list') }}" class="nav-link @if(\Illuminate\Support\Facades\Request::segment(2) == 'sub_category') active @endif">
+                        <i class="nav-icon fas fa-list-alt"></i>
+                        <p>
+                            Sub Category
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ url('admin/brand/list') }}" class="nav-link @if(\Illuminate\Support\Facades\Request::segment(2) == 'brand') active @endif">
+                        <i class="nav-icon fas fa-list-alt"></i>
+                        <p>
+                            Brand
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ url('admin/color/list') }}" class="nav-link @if(\Illuminate\Support\Facades\Request::segment(2) == 'color') active @endif">
+                        <i class="nav-icon fas fa-list-alt"></i>
+                        <p>
+                            Color
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a href="{{ url('admin/product/list') }}" class="nav-link @if(\Illuminate\Support\Facades\Request::segment(2) == 'product') active @endif">
                         <i class="nav-icon fas fa-list-alt"></i>
                         <p>
