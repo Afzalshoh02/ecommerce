@@ -35,37 +35,32 @@
                                     <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Name</th>
-                                        <th>Slug</th>
-                                        <th>Status</th>
-                                        <th>Meta Title</th>
-                                        <th>Meta Description</th>
-                                        <th>Meta Keywords</th>
+                                        <th>Title</th>
                                         <th>Creator By</th>
+                                        <th>Status</th>
                                         <th>Created Date</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-{{--                                    @foreach($getRecord as $value)--}}
-{{--                                        <tr>--}}
-{{--                                            <td>{{ $value->id }}</td>--}}
-{{--                                            <td>{{ $value->name }}</td>--}}
-{{--                                            <td>{{ $value->slug }}</td>--}}
-{{--                                            <td>{{ $value->meta_title }}</td>--}}
-{{--                                            <td>{{ $value->meta_description }}</td>--}}
-{{--                                            <td>{{ $value->meta_keywords }}</td>--}}
-{{--                                            <td>{{ $value->created_by_name }}</td>--}}
-{{--                                            <td>{{ ($value->status == 0) ? 'Active' : 'InActive' }}</td>--}}
-{{--                                            <td>{{ date('d-m-Y', strtotime($value->created_at)) }}</td>--}}
-{{--                                            <td>--}}
-{{--                                                <a href="{{ url('admin/category/edit/'.$value->id) }}" class="btn btn-primary">Edit</a>--}}
-{{--                                                <a href="{{ url('admin/category/delete/'.$value->id) }}" class="btn btn-danger">Delete</a>--}}
-{{--                                            </td>--}}
-{{--                                        </tr>--}}
-{{--                                    @endforeach--}}
+                                    @foreach($getRecord as $value)
+                                        <tr>
+                                            <td>{{ $value->id }}</td>
+                                            <td>{{ $value->title }}</td>
+                                            <td>{{ $value->created_by_name }}</td>
+                                            <td>{{ ($value->status == 0) ? 'Active' : 'InActive' }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($value->created_at)) }}</td>
+                                            <td>
+                                                <a href="{{ url('admin/product/edit/'.$value->id) }}" class="btn btn-primary">Edit</a>
+                                                <a href="{{ url('admin/product/delete/'.$value->id) }}" class="btn btn-danger">Delete</a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                     </tbody>
                                 </table>
+                                <div style="padding: 10px; float: right">
+                                    {!! $getRecord->appends(\Illuminate\Support\Facades\Request::except('page'))->links() !!}
+                                </div>
                             </div>
                         </div>
                     </div>

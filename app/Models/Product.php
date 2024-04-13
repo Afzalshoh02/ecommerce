@@ -17,4 +17,17 @@ class Product extends Model
     {
         return self::where('slug', '=', $slug)->count();
     }
+    static public function gerRecord()
+    {
+        return self::select('products.*', 'users.name as created_by_name')
+            ->join('users', 'users.id', '=', 'products.created_by')
+            ->where('products.is_deleted', '=', 0)
+            ->orderBy('products.id', 'desc')
+            ->paginate(8);
+    }
+
+    public function getColor()
+    {
+        return $this->hasmany(ProductColor::class, 'product_id');
+    }
 }
