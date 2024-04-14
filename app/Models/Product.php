@@ -30,4 +30,14 @@ class Product extends Model
     {
         return $this->hasmany(ProductColor::class, 'product_id');
     }
+
+    public function getSize()
+    {
+        return $this->hasmany(ProductSize::class, 'product_id');
+    }
+
+    public function getImage()
+    {
+        return $this->belongsTo(ProductImage::class, 'product_id');
+    }
 }

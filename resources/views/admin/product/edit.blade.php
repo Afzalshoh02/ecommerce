@@ -24,7 +24,7 @@
                     <div class="col-md-12">
                         @include('admin.layouts._message')
                         <div class="card card-primary">
-                            <form action="" method="post">
+                            <form action="" method="post" enctype="multipart/form-data">
                                 {{ csrf_field() }}
                                 <div class="card-body">
 
@@ -112,14 +112,14 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Price ($)<span style="color: red">*</span></label>
-                                                <input type="text" class="form-control" required value="{{ $product->price }}" name="price" placeholder="Price">
+                                                <input type="text" class="form-control" required value="{{ !empty($product->price) ? $product->price : '' }}" name="price" placeholder="Price">
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Old Price ($)<span style="color: red">*</span></label>
-                                                <input type="text" class="form-control" required value="{{ $product->old_price }}" name="old_price" placeholder="Old Price">
+                                                <input type="text" class="form-control" required value="{{ !empty($product->old_price) ? $product->old_price : '' }}" name="old_price" placeholder="Old Price">
                                             </div>
                                         </div>
 
@@ -139,6 +139,25 @@
                                                         </tr>
                                                         </thead>
                                                         <tbody id="AppendSize">
+                                                        @php
+                                                            $i_s = 1;
+                                                        @endphp
+                                                        @foreach($product->getSize as $size)
+                                                            <tr id="DeleteSize{{$i_s}}">
+                                                                <td>
+                                                                    <input type="text" value="{{ $size->name }}" name="size[{{$i_s}}][name]" placeholder="Name" class="form-control">
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" value="{{ $size->price }}" name="size[{{$i_s}}][price]" placeholder="Price" class="form-control">
+                                                                </td>
+                                                                <td style="width: 200px;">
+                                                                    <button type="button" id="{{ $i_s }}" class="btn btn-danger DeleteSize">Delete</button>
+                                                                </td>
+                                                            </tr>
+                                                            @php
+                                                                $i_s++;
+                                                            @endphp
+                                                        @endforeach
                                                         <tr>
                                                             <td>
                                                                 <input type="text" name="" placeholder="Name" class="form-control">
@@ -157,6 +176,42 @@
                                         </div>
                                     </div>
 
+                                    <hr>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Image <span style="color: red"></span></label>
+                                                <input type="file" name="image[]" class="form-control" style="padding: 5px;" multiple accept="imgage/*">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                        @if(!empty($product->getImage->count()))
+                                        <div class="row">
+                                            @foreach($product->getImage as $image)
+                                                @if(!empty($image->getLogo()))
+                                                    <div class="col-md-1" style="text-align: center;">
+                                                        <img style="width: 100%; height: 100px;" src="{{ $image->getLogo() }}">
+                                                        <a onclick="return confirm('Are you sere you want to delete')" href="{{ url('admin/product/image_delete/'.$image->id) }}" style="margin-top: 10px;" class="btn btn-danger btn-sm">Delete</a>
+                                                    </div>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    @endif
+
+{{--                                    @if(isset($product) && $product != null && isset($product->getImage) && $product->getImage != null && $product->getImage->count() > 0)--}}
+{{--                                        <div class="row">--}}
+{{--                                            @foreach($product->getImage as $image)--}}
+{{--                                                @if(isset($image) && !empty($image->getLogo))--}}
+{{--                                                    <div class="col-md-1" style="text-align: center;">--}}
+{{--                                                        <img style="width: 100%; height: 100px;" src="{{ $image->getLogo }}">--}}
+{{--                                                        <a href="{{ url('admin/product/image_delete/'.$image->id) }}" style="margin-top: 10px;" class="btn btn-danger btn-sm">Delete</a>--}}
+{{--                                                    </div>--}}
+{{--                                                @endif--}}
+{{--                                            @endforeach--}}
+{{--                                        </div>--}}
+{{--                                    @endif--}}
                                     <hr>
 
                                     <div class="row">
@@ -230,14 +285,14 @@
         $('.editor').summernote({
             height: 150
         });
-        var i = 1000;
+        var i = 101;
         $('body').delegate('.AddSize', 'click', function () {
             var html = '<tr id="DeleteSize'+i+'">\n\
                         <td>\n\
-                            <input type="text" name="" placeholder="Name" class="form-control">\n\
+                            <input type="text" name="size['+i+'][name]" placeholder="Name" class="form-control">\n\
                         </td>\n\
                         <td>\n\
-                            <input type="text" name="" placeholder="Price" class="form-control">\n\
+                            <input type="text" name="size['+i+'][price]" placeholder="Price" class="form-control">\n\
                         </td>\n\
                         <td>\n\
                             <button type="button" id="'+i+'" class="btn btn-danger DeleteSize">Delete</button>\n\
