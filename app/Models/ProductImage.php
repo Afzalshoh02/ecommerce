@@ -14,13 +14,13 @@ class ProductImage extends Model
     public function getLogo()
     {
         if (!empty($this->image_name)) {
-            return url("/upload/product" . $this->image_name);
+            return url("/upload/product/" . $this->image_name);
         } else {
             return "";
         }
     }
 
-    public function getSingle($id)
+    static public function getSingle($id)
     {
         return self::find($id);
     }

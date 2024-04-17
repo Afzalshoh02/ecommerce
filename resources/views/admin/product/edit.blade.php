@@ -188,10 +188,10 @@
                                     </div>
 
                                         @if(!empty($product->getImage->count()))
-                                        <div class="row">
+                                        <div class="row" id="sortable">
                                             @foreach($product->getImage as $image)
                                                 @if(!empty($image->getLogo()))
-                                                    <div class="col-md-1" style="text-align: center;">
+                                                    <div class="col-md-1 sortable_image" id="{{ $image->id }}" style="text-align: center;">
                                                         <img style="width: 100%; height: 100px;" src="{{ $image->getLogo() }}">
                                                         <a onclick="return confirm('Are you sere you want to delete')" href="{{ url('admin/product/image_delete/'.$image->id) }}" style="margin-top: 10px;" class="btn btn-danger btn-sm">Delete</a>
                                                     </div>
@@ -200,18 +200,6 @@
                                         </div>
                                     @endif
 
-{{--                                    @if(isset($product) && $product != null && isset($product->getImage) && $product->getImage != null && $product->getImage->count() > 0)--}}
-{{--                                        <div class="row">--}}
-{{--                                            @foreach($product->getImage as $image)--}}
-{{--                                                @if(isset($image) && !empty($image->getLogo))--}}
-{{--                                                    <div class="col-md-1" style="text-align: center;">--}}
-{{--                                                        <img style="width: 100%; height: 100px;" src="{{ $image->getLogo }}">--}}
-{{--                                                        <a href="{{ url('admin/product/image_delete/'.$image->id) }}" style="margin-top: 10px;" class="btn btn-danger btn-sm">Delete</a>--}}
-{{--                                                    </div>--}}
-{{--                                                @endif--}}
-{{--                                            @endforeach--}}
-{{--                                        </div>--}}
-{{--                                    @endif--}}
                                     <hr>
 
                                     <div class="row">
@@ -280,8 +268,38 @@
 @section('script')
 
     <script src="{{url('/assets/plugins/summernote/summernote-bs4.min.js')}}"></script>
+    <script src="{{url('/sortable/jquery-ui.js')}}"></script>
 
     <script type="text/javascript">
+
+        $(document).ready(function () {
+            $( "#sortable" ).sortable({
+                update: function (event, ui) {
+                    var photo_id = new Array();
+                    $('.sortable_image').each(function () {
+                       var id = $(this).attr('id');
+                       photo_id.push(id);
+                    });
+                    // console.log(photo_id);
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ url('admin/product_image_sortable') }}",
+                        data: {
+                            "photo_id": photo_id,
+                            "_token": "{{ csrf_token() }}"
+                        },
+                        dataType: "json",
+                        success: function (data) {
+
+                        },
+                        error: function (data) {
+
+                        }
+                    });
+                }
+            });
+        });
+
         $('.editor').summernote({
             height: 150
         });

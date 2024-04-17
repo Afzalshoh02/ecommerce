@@ -126,10 +126,25 @@ class ProductController extends Controller
     public function image_delete($id)
     {
         $image = ProductImage::getSingle($id);
-        if (!empty($image->getLogo())) {
+        if (empty($image->getLogo())) {
             unlink('upload/product/'.$image->image_name);
         }
         $image->delete();
         return redirect()->back()->with('success', "Product Image Successfully Deleted");
+    }
+
+    public function product_image_sortable(Request $request)
+    {
+        if (!empty($request->photo_id)) {
+            $i = 1;
+            foreach ($request->photo_id as $photo_id) {
+                $image = ProductImage::getSingle($photo_id);
+                $image->order_by = $i;
+                $image->save();
+                $i++;
+            }
+        }
+        $json['success'] = true;
+        echo json_encode($json);
     }
 }

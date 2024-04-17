@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,9 +22,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 Route::get('admin', [AuthController::class, 'login']);
 Route::post('admin', [AuthController::class, 'auth_login_admin']);
 Route::get('admin/logout', [AuthController::class, 'admin_logout']);
@@ -60,6 +58,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('admin/product/edit/{id}', [ProductController::class, 'edit']);
     Route::post('admin/product/edit/{id}', [ProductController::class, 'update']);
     Route::get('admin/product/image_delete/{id}', [ProductController::class, 'image_delete']);
+    Route::post('admin/product_image_sortable', [ProductController::class, 'product_image_sortable']);
 
     Route::get('admin/brand/list', [BrandController::class, 'list']);
     Route::get('admin/brand/add', [BrandController::class, 'add']);
@@ -76,3 +75,4 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('admin/color/delete/{id}', [ColorController::class, 'delete']);
 
 });
+Route::get('/', [HomeController::class, 'home']);
